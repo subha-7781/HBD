@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: linear-gradient(to right, #ff9a9e, #fad0c4);
+            background-color: #f0f0f0; /* Light grey background */
             text-align: center;
             margin: 0;
             padding: 0;
@@ -52,30 +52,31 @@
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
         }
 
-        #surprise-message, #photo-gallery {
+        #surprise-message {
             font-size: 1.2em;
             color: black; /* Black text color */
-            background: linear-gradient(135deg, #ff1493, #ff69b4); /* Gradient background */
             border-radius: 10px;
             padding: 20px;
             margin-top: 20px;
-            animation: slideIn 2s ease-out;
+            animation: slideIn 2s ease-out, fadeIn 2s ease-out;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
             overflow: hidden;
             white-space: nowrap;
             position: relative;
         }
 
-        #marquee {
-            font-size: 1.5em;
-            color: black;
-            
-            padding: 10px;
-            border-radius: 5px;
+        #marquee-container {
             display: inline-block;
             white-space: nowrap;
-            animation: marquee 20s linear infinite; /* Slow down the marquee speed */
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Text shadow for better readability */
+            overflow: hidden;
+            position: relative;
+            height: 2.5em; /* Adjust height if needed */
+            margin-top: 10px;
+        }
+
+        #marquee {
+            display: inline-block;
+            animation: marquee 20s linear infinite; /* Adjust speed if needed */
         }
 
         #photo-gallery {
@@ -85,6 +86,7 @@
             margin-top: 20px;
             height: 400px; /* Set a fixed height */
             overflow-y: auto; /* Enable vertical scrolling */
+            background-color: white; /* Change background to white */
         }
 
         .photo-box {
@@ -97,13 +99,36 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
             opacity: 0; /* Start hidden */
             transform: scale(0.9); /* Start scaled down */
+            cursor: pointer; /* Add cursor pointer */
         }
 
-        .photo-box img {
+        .photo-box img, .photo-box .message {
             width: 100%;
             height: 100%;
             object-fit: cover;
             border-radius: 10px;
+            backface-visibility: hidden; /* Hide backface when rotated */
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .photo-box .message {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1em;
+            color: #fff; /* White text color */
+            background: linear-gradient(135deg, #ff1493, #ff69b4); /* Gradient background */
+            transform: rotateY(180deg); /* Initially hidden */
+        }
+
+        #click-instruction {
+            font-size: 1.2em;
+            color: #d70077;
+            margin-top: 20px;
+            display: none;
+            animation: fadeIn 2s ease-out;
         }
 
         @keyframes bounce {
@@ -170,6 +195,24 @@
             }
         }
 
+        @keyframes flip {
+            0% {
+                transform: rotateY(0);
+            }
+            100% {
+                transform: rotateY(180deg);
+            }
+        }
+
+        @keyframes flipBack {
+            0% {
+                transform: rotateY(180deg);
+            }
+            100% {
+                transform: rotateY(0);
+            }
+        }
+
         .watermark {
             position: absolute;
             bottom: 10px;
@@ -185,16 +228,42 @@
         <p>Today is a special day. Celebrate and enjoy!</p>
         <button id="first-surprise-btn" onclick="revealMessage()">Click on It</button>
         <div id="surprise-message" style="display: none;">
-            <div id="marquee">🎉 Wishing you a fabulous birthday filled with love, laughter, and unforgettable moments! May this year bring you endless joy and success! 🎉</div>
+            <div id="marquee-container">
+                <div id="marquee">
+                    🎉 Wishing you a fabulous birthday filled with love, laughter, and unforgettable moments! May this year bring you endless joy and success! 🎉
+                    🎂 May your day be as wonderful as you are! 🎂
+                    🎈 Sending you smiles for every moment of your special day! 🎈
+                    🎁 Hope your birthday is as special as you are! 🎁
+                </div>
+            </div>
         </div>
         <center><button id="second-surprise-btn" style="display: none;" onclick="revealPhotos()">Click again</button></center>
+        <div id="click-instruction" style="display: none;">Please click the photos!</div>
         <div id="photo-gallery">
-            <div class="photo-box"><img src="photo1.jpg" ></div>
-            <div class="photo-box"><img src="photo2.jpg"></div>
-            <div class="photo-box"><img src="photo3.jpg"></div>
-            <div class="photo-box"><img src="photo4.jpg"></div>
-            <div class="photo-box"><img src="photo5.jpg"></div>
-            <div class="photo-box"><img src="photo6.jpg"></div>
+            <div class="photo-box" onclick="toggleMessage(this)">
+                <img src="1722696873767.jpg">
+                <div class="message">Embrace Happiness Everyday!</div>
+            </div>
+            <div class="photo-box" onclick="toggleMessage(this)">
+                <img src="1722696866034.jpg">
+                <div class="message">Keep shining!</div>
+            </div>
+            <div class="photo-box" onclick="toggleMessage(this)">
+                <img src="1722696897951.jpg">
+                <div class="message">Stay joyfull and bright!</div>
+            </div>
+            <div class="photo-box" onclick="toggleMessage(this)">
+                <img src="1722696909649.jpg">
+                <div class="message">Stay happy!</div>
+            </div>
+            <div class="photo-box" onclick="toggleMessage(this)">
+                <img src="1722696937358.jpg">
+                <div class="message">Keep spreading smiles</div>
+            </div>
+            <div class="photo-box" onclick="toggleMessage(this)">
+                <img src="1722696983308.jpg">
+                <div class="message">Stay radiant and cheerful!</div>
+            </div>
         </div>
     </div>
     <div class="watermark">By Subha</div>
@@ -217,6 +286,21 @@
                     box.style.animation = 'roll 0.5s ease-in-out'; // Apply rolling animation
                 }, index * 1000); // Delay for each photo (1 second interval)
             });
+            document.getElementById('second-surprise-btn').style.display = 'none'; // Hide the second button
+            document.getElementById('click-instruction').style.display = 'block'; // Show the instruction
+        }
+
+        function toggleMessage(box) {
+            const img = box.querySelector('img');
+            const message = box.querySelector('.message');
+
+            if (img.style.transform === 'rotateY(180deg)') {
+                img.style.transform = 'rotateY(0)';
+                message.style.transform = 'rotateY(180deg)';
+            } else {
+                img.style.transform = 'rotateY(180deg)';
+                message.style.transform = 'rotateY(0)';
+            }
         }
     </script>
 </body>
