@@ -17,6 +17,7 @@
 
         .container {
             margin-top: 100px;
+            padding: 0 10px; /* Add padding for better mobile view */
         }
 
         h1 {
@@ -73,7 +74,7 @@
             border-radius: 5px;
             display: inline-block;
             white-space: nowrap;
-            animation: marquee 10s linear infinite;
+            animation: marquee 20s linear infinite; /* Slow down the marquee speed */
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Text shadow for better readability */
         }
 
@@ -82,11 +83,13 @@
             flex-wrap: wrap;
             justify-content: center;
             margin-top: 20px;
+            height: 400px; /* Set a fixed height */
+            overflow-y: auto; /* Enable vertical scrolling */
         }
 
         .photo-box {
-            width: 200px;
-            height: 150px;
+            width: 120px; /* Smaller width */
+            height: 90px; /* Smaller height */
             margin: 10px;
             border-radius: 10px;
             overflow: hidden;
